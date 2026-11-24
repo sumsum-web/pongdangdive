@@ -129,7 +129,7 @@ setInterval(()=>{try{
  if(!el){if(!document.body)return;el=document.createElement('div');el.id='pdNet';el.style.cssText='position:fixed;left:10px;top:calc(env(safe-area-inset-top,0px) + 60px);z-index:50;font:600 12px/1.3 sans-serif;color:#17324d;background:rgba(255,255,255,.82);border-radius:10px;padding:4px 9px;pointer-events:none;max-width:70vw';document.body.appendChild(el)}
  let t='';
  if(netMode==='fail')t='🔴 멀티플레이 안 됨: '+netErr;
- if(t)t+=' · v332';
+ if(t)t+=' · v333';
  if(el.textContent!==t)el.textContent=t;
  el.style.display=t?'':'none';
 }catch(e){}},1500);
@@ -209,7 +209,7 @@ body.dyd #act{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px
 #tgt{display:none;align-items:center;gap:8px}#tgt button{width:40px;height:40px;font-size:20px;padding:0}
 #vert{display:none;flex-direction:column;gap:8px}#vert button{width:56px;height:56px;font-size:22px;padding:0;touch-action:none}
 #eq{display:none;position:fixed;left:calc(76% - 33px);right:auto;top:calc(78.5% - 33px);width:66px;height:66px;padding:0;border-radius:50%;font-size:15px;line-height:1.2;background:linear-gradient(#ffb866,#ff8a2b);z-index:30;touch-action:manipulation;box-shadow:0 0 0 8px rgba(255,255,255,.35),0 8px 26px rgba(0,0,0,.35);animation:eqp .7s ease-in-out infinite alternate}@keyframes eqp{to{transform:scale(1.08)}}
-body.photo #hud,body.photo #side,body.photo #bar,body.photo #tools,body.photo #jg,body.photo #o2w,body.photo #act,body.photo #toast,body.photo #pan,body.photo #boost,body.photo #chat,body.photo #ppl{display:none!important}body.photo #joy,body.photo #knob{opacity:0!important}#phx{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px;z-index:60;display:none;opacity:.35;border:0;border-radius:20px;padding:8px 14px;font-size:15px;background:rgba(255,255,255,.7);color:#17324d}body.photo #phx{display:block}
+body.photo #hud,body.photo #side,body.photo #bar,body.photo #tools,body.photo #jg,body.photo #o2w,body.photo #act,body.photo #toast,body.photo #pan,body.photo #boost,body.photo #chat,body.photo #ppl,body.photo #smap,body.photo #rideb,body.photo #tanb,body.photo #vu,body.photo #vd,body.photo #kl,body.photo #kr,body.photo #kg,body.photo #sg,body.photo #sgb,body.photo #cd{display:none!important}body.photo #joy,body.photo #knob{opacity:0!important}#phx{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px;z-index:60;display:none;opacity:.35;border:0;border-radius:20px;padding:8px 14px;font-size:15px;background:rgba(255,255,255,.7);color:#17324d}body.photo #phx{display:block}
 #bar{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 0px);display:flex;gap:6px;justify-content:center;padding:6px 10px 4px}
 #bar button{border:0;background:var(--bg);color:var(--fg);border-radius:14px;padding:6px 0;font-size:22px;display:flex;flex-direction:column;align-items:center;width:56px;backdrop-filter:blur(6px)}
 #bar button.on{outline:3px solid var(--accent)}#bar small{font-size:11px;font-weight:700}
@@ -750,11 +750,15 @@ const CVI0=Math.max(0,CVS.findIndex(q=>q.z>=CVWZ-1.2));
 function cvOk(x,y,z){let inT=false;if(y>CVY-.5)for(let i=CVI0;i<CVN;i++){const s=CVS[i],dx=x-s.x,dz=z-s.z;if(dx*dx+dz*dz<s.h2&&y<s.top&&z>=CVWZ-.6){inT=true;break}}cvInT=inT;return inT||bed(x,z)+.9-y<=1.1}
 // 🐘 코끼리 충돌: 몸통+머리 상자와 코 상자 (로컬 좌표) 밖으로 밀어내요
 const ELB=[[-2.6,4.5,-1.9,1.9,5.7],[4.5,6.0,-.7,.7,4.5]];
-function eleCol(){if(mode!=='fun'||sit)return;const dx=P.x-ELX,dz=P.z-ELZ;if(dx*dx+dz*dz>81)return;
- const c=Math.cos(EL.rotation.y),s=Math.sin(EL.rotation.y),m=.65/ELS;let lx=(dx*c-dz*s)/ELS,lz=(dx*s+dz*c)/ELS;const ly=(P.y-EL.position.y)/ELS;
- for(const b of ELB){if(ly<-.5||ly>b[4]+m)continue;const x0=b[0]-m,x1=b[1]+m,z0=b[2]-m,z1=b[3]+m;if(lx<=x0||lx>=x1||lz<=z0||lz>=z1)continue;
-  const d=[lx-x0,x1-lx,lz-z0,z1-lz],k=d.indexOf(Math.min(...d));if(k===0)lx=x0;else if(k===1)lx=x1;else if(k===2)lz=z0;else lz=z1;
-  P.x=ELX+(lx*c+lz*s)*ELS;P.z=ELZ+(-lx*s+lz*c)*ELS;fvx=fvz=0}}
+let eleP=null;
+function eleCol(){if(mode!=='fun'||sit){eleP=null;return}const dx=P.x-ELX,dz=P.z-ELZ;if(dx*dx+dz*dz>81){eleP=null;return}
+ const c=Math.cos(EL.rotation.y),s=Math.sin(EL.rotation.y),m=.65/ELS,LL=(x,z)=>[((x-ELX)*c-(z-ELZ)*s)/ELS,((x-ELX)*s+(z-ELZ)*c)/ELS];let [lx,lz]=LL(P.x,P.z);const ly=(P.y-EL.position.y)/ELS,pl=eleP?LL(eleP[0],eleP[2]):null;let hit=false;
+ for(const b of ELB){if(ly<-.5||ly>b[4]+m)continue;const x0=b[0]-m,x1=b[1]+m,z0=b[2]-m,z1=b[3]+m;if(lx<=x0||lx>=x1||lz<=z0||lz>=z1)continue;hit=true;
+  let k=-1;if(pl){if(pl[0]<=x0)k=0;else if(pl[0]>=x1)k=1;else if(pl[1]<=z0)k=2;else if(pl[1]>=z1)k=3}
+  if(k<0){const d=[lx-x0,x1-lx,lz-z0,z1-lz];k=d.indexOf(Math.min(...d))}
+  if(k===0)lx=x0;else if(k===1)lx=x1;else if(k===2)lz=z0;else lz=z1}
+ if(hit){P.x=ELX+(lx*c+lz*s)*ELS;P.z=ELZ+(-lx*s+lz*c)*ELS;fvx=fvz=0}
+ eleP=[P.x,P.y,P.z]}
 function caveCol(){
  if(forced)return;eleCol();
  if(Math.hypot(P.x+103,P.z-5)>80){cvLast=null;cvInT=false;return}
@@ -1623,7 +1627,7 @@ function frPanel(){const on=[];remote.forEach((r,k)=>{if(r.q&&r.q.n)on.push({n:S
  const off=frs.filter(n=>!names.has(n));h+='<br><small>내 버디 '+frs.length+'명</small>'+(off.length?off.map(n=>row(n,0,0)).join(''):'')+(frs.length&&!off.length?'<div style="opacity:.6;margin:6px 0">버디가 모두 접속 중이에요 ⭐</div>':'')+(!frs.length?'<div style="opacity:.6;margin:6px 0">버디를 추가하면 이름 앞에 ⭐가 떠요</div>':'')+'<br><small>서로 수락하면 버디가 돼요 💗 (화면에서 버디를 터치해도 신청할 수 있어요)</small></div>';
  pan(h);$('pc').querySelectorAll('button[data-n]').forEach(b=>b.onclick=()=>{const n=b.dataset.n,i=frs.indexOf(n);if(i<0){frSend(b.dataset.k,n)}else{frs.splice(i,1);save();toast('버디를 삭제했어요')}frPanel()})}
 $('tfr').onclick=frPanel;
-document.body.insertAdjacentHTML('beforeend','<button id="phx">📸 사진 모드 끝내기</button>');$('tcam').onclick=()=>{$('tools').classList.add('hid');document.body.classList.add('photo');toast('📸 사진 모드! 화면 캡처하세요 (오른쪽 위 버튼으로 종료)');beep(620)};$('phx').onclick=e=>{e.stopPropagation();document.body.classList.remove('photo');beep(500)};
+document.body.insertAdjacentHTML('beforeend','<button id="phx">📸 사진 모드 끝내기</button>');$('tcam').onclick=()=>{$('tools').classList.add('hid');document.body.classList.add('photo');try{if(mode==='fun'&&!sit&&Math.hypot(P.x-ELX,P.z-ELZ)<16){const fx=ELX-P.x,fz=ELZ-P.z;P.face=Math.atan2(fx,fz);yaw=P.face+Math.PI/2;fvx=fvz=0;snap=true}}catch(e){}toast('📸 사진 모드! 화면 캡처하세요 (오른쪽 위 버튼으로 종료)');beep(620)};$('phx').onclick=e=>{e.stopPropagation();document.body.classList.remove('photo');beep(500)};
 $('ttg').onclick=()=>{$('tools').classList.toggle('hid');beep(600)};
 
 // ---- 튜토리얼 (최초 1회)
@@ -1848,7 +1852,7 @@ function squeak(){if(!AC||!musOn)return;const t=AC.currentTime,o=AC.createOscill
 function slideSfx(){if(!AC||!musOn)return;const t=AC.currentTime,n=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();f.type='bandpass';f.Q.value=1.2;f.frequency.setValueAtTime(500,t);f.frequency.exponentialRampToValueAtTime(3000,t+1.4);g.gain.setValueAtTime(.02,t);g.gain.linearRampToValueAtTime(.2,t+.9);g.gain.linearRampToValueAtTime(.05,t+1.5);n.buffer=nz(1.5,0.3,.05);n.connect(f);f.connect(g);g.connect(AC.destination);n.start(t);
  const o=AC.createOscillator(),h=AC.createGain();o.type='triangle';o.frequency.setValueAtTime(420,t);o.frequency.exponentialRampToValueAtTime(1100,t+1.3);h.gain.setValueAtTime(.001,t);h.gain.linearRampToValueAtTime(.05,t+.2);h.gain.linearRampToValueAtTime(.001,t+1.4);o.connect(h);h.connect(AC.destination);o.start(t);o.stop(t+1.45)}
 function goTo(x,z){if(!free())setMode('lobby');fvx=fvz=0;P.x=x;P.z=z;P.y=1.02;ride=null;sit=null;snap=true;beep(600)}
-$('tnm').onclick=()=>{pan('<b>🙋 내 정보</b> <small style="opacity:.4">v332</small><br>이름: <b>'+esc(nm)+'</b> · '+(female?'👧 여자':'👦 남자')+'<br><small>성별은 처음에 한 번만 정할 수 있어요.</small><div style="margin:10px 0 4px"><input id="nmin" maxlength="10" value="'+esc(nm==='다이버'?'':nm)+'" placeholder="새 닉네임" style="font-size:16px;padding:8px 12px;border-radius:999px;border:2px solid #cfe0f3;width:150px"> <button class="big" id="nmok">✏️ 바꾸기</button><br><small>닉네임 변경 가능 횟수 <b>'+(nm==='다이버'?'3':Math.max(0,3-nc))+'/3</b></small></div>'+(window.PD_SITE?'<hr style="opacity:.3"><b>🔑 내 계정 코드</b><br><small>다른 기기에서 이어 하려면 이 코드를 입력하세요. 남에게 알려주지 마세요!</small><div style="font-size:18px;letter-spacing:1px;margin:6px 0;user-select:text;-webkit-user-select:text">'+PD_CODE()+'</div><input id="cdin" placeholder="다른 기기의 코드 입력" maxlength="19" style="font-size:16px;padding:8px;border-radius:10px;border:1px solid #888;width:190px"> <button class="big" id="cdok">불러오기</button>':''));}
+$('tnm').onclick=()=>{pan('<b>🙋 내 정보</b> <small style="opacity:.4">v333</small><br>이름: <b>'+esc(nm)+'</b> · '+(female?'👧 여자':'👦 남자')+'<br><small>성별은 처음에 한 번만 정할 수 있어요.</small><div style="margin:10px 0 4px"><input id="nmin" maxlength="10" value="'+esc(nm==='다이버'?'':nm)+'" placeholder="새 닉네임" style="font-size:16px;padding:8px 12px;border-radius:999px;border:2px solid #cfe0f3;width:150px"> <button class="big" id="nmok">✏️ 바꾸기</button><br><small>닉네임 변경 가능 횟수 <b>'+(nm==='다이버'?'3':Math.max(0,3-nc))+'/3</b></small></div>'+(window.PD_SITE?'<hr style="opacity:.3"><b>🔑 내 계정 코드</b><br><small>다른 기기에서 이어 하려면 이 코드를 입력하세요. 남에게 알려주지 마세요!</small><div style="font-size:18px;letter-spacing:1px;margin:6px 0;user-select:text;-webkit-user-select:text">'+PD_CODE()+'</div><input id="cdin" placeholder="다른 기기의 코드 입력" maxlength="19" style="font-size:16px;padding:8px;border-radius:10px;border:1px solid #888;width:190px"> <button class="big" id="cdok">불러오기</button>':''));}
 function nmChange(){const v=(($('nmin')||{}).value||'').trim().slice(0,10);
  if(!v||v===nm){toast('새 닉네임을 적어주세요');return}
  if(nm!=='다이버'&&nc>=3){toast('닉네임은 3번까지만 바꿀 수 있어요');beep(300);return}
