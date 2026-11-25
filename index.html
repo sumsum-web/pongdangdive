@@ -129,7 +129,7 @@ setInterval(()=>{try{
  if(!el){if(!document.body)return;el=document.createElement('div');el.id='pdNet';el.style.cssText='position:fixed;left:10px;top:calc(env(safe-area-inset-top,0px) + 60px);z-index:50;font:600 12px/1.3 sans-serif;color:#17324d;background:rgba(255,255,255,.82);border-radius:10px;padding:4px 9px;pointer-events:none;max-width:70vw';document.body.appendChild(el)}
  let t='';
  if(netMode==='fail')t='🔴 멀티플레이 안 됨: '+netErr;
- if(t)t+=' · v334';
+ if(t)t+=' · v335';
  if(el.textContent!==t)el.textContent=t;
  el.style.display=t?'':'none';
 }catch(e){}},1500);
@@ -602,7 +602,7 @@ const BHR=[HX+Math.cos(-2.2)*13,HZ+Math.sin(-2.2)*13],ELS=.78,ELX=-90,ELZ=13,EL=
  // 몸통(드럼통) + 갈빗대 띠 + 리벳
  eP(new THREE.CylinderGeometry(1.5,1.5,4.2,14),rs[0],0,3.9,0,0,0,Math.PI/2);
  [-1.6,-.8,0,.8,1.6].forEach(x=>{eP(new THREE.TorusGeometry(1.55,.07,6,22),rs[3],x,3.9,0,0,Math.PI/2,0);for(let k=0;k<8;k++){const a=k/8*6.283;eP(new THREE.SphereGeometry(.07,5,4),rs[3],x,3.9+Math.sin(a)*1.58,Math.cos(a)*1.58)}});
- for(let n=0;n<16;n++){const th=R()*6.283,x=(R()-.5)*3.6,w=.8+R()*.7,d=.7+R()*.5;eP(new THREE.BoxGeometry(w,.12,d),rs[n%3],x,3.9+Math.sin(th)*1.52,Math.cos(th)*1.52,Math.PI/2-th,0,0)}
+ for(let n=0;n<16;n++){const th=R()*6.283,x=(R()-.5)*3.6,w=.8+R()*.7,d=.7+R()*.5,rr=1.5+.014*(n+1);eP(new THREE.BoxGeometry(w,.12,d),rs[n%3],x,3.9+Math.sin(th)*rr,Math.cos(th)*rr,Math.PI/2-th,0,0)}
  // 다리 4개 (톱니바퀴 무릎 + 발)
  [[1.5,.85],[1.5,-.85],[-1.5,.85],[-1.5,-.85]].forEach((q,k)=>{eP(new THREE.CylinderGeometry(.5,.55,2.1,9),rs[(k+1)%3],q[0],1.8,q[1]);eP(new THREE.CylinderGeometry(.66,.7,.3,10),rs[3],q[0],1.0,q[1]);const g=eP(new THREE.CylinderGeometry(.62,.62,.12,12),rs[3],q[0],2.1,q[1]+(q[1]>0?.52:-.52),Math.PI/2,0,0);eP(new THREE.TorusGeometry(.62,.07,5,12),rs[2],q[0],2.1,q[1]+(q[1]>0?.58:-.58))});
  // 머리, 귀, 눈, 상아
@@ -617,7 +617,7 @@ const BHR=[HX+Math.cos(-2.2)*13,HZ+Math.sin(-2.2)*13],ELS=.78,ELX=-90,ELZ=13,EL=
  // 꼬리
  seg([-2.1,4.3,0],[-2.8,3.3,0],.16,.09,rs[3]);eP(new THREE.SphereGeometry(.22,7,6),rs[1],-2.85,3.2,0);
  // 녹 슬고 푸르게 삭은 조각들
- for(let n=0;n<12;n++){eP(new THREE.BoxGeometry(.3+R()*.4,.08,.3+R()*.4),gr,(R()-.5)*4,3.9+Math.sin(R()*3.14)*1.55,(R()-.5)*1.2,R()*.5,R()*3,R()*.5)}
+ gr.polygonOffset=true;gr.polygonOffsetFactor=-2;gr.polygonOffsetUnits=-2;for(let n=0;n<12;n++){eP(new THREE.BoxGeometry(.3+R()*.4,.08,.3+R()*.4),gr,(R()-.5)*4,3.9+Math.sin(R()*3.14)*1.75,(R()-.5)*1.2,R()*.5,R()*3,R()*.5)}
  for(let n=0;n<8;n++){const q=[[1.5,.85],[1.5,-.85],[-1.5,.85],[-1.5,-.85]][n%4];eP(new THREE.BoxGeometry(.35,.1,.35),gr,q[0]+(R()-.5)*.5,.9+R()*1.3,q[1]+(R()-.5)*.5,R(),R()*3,R())}}
 // 불빛 (켜고 끄는 건 intensity로 해요: 불빛 개수가 바뀌면 화면이 잠깐 멈춰요)
 const cvL1=new THREE.PointLight(0x9be7ff,0,32,2),cvLA=[[8,0x9be7ff],[45,0x9be7ff],[75,0xc9b0ff],[104,0xffb0e8]].map(q=>{const c=CVS[q[0]];return[c.x,c.y+1,c.z,q[1]]}).concat([[HX+2,-93,HZ+3,0xffe2b8],[HX+3,-68,HZ-4,0x7ac8ff],[HX-3,-40,HZ+2,0x8fe0ff]]);cvL1.position.set(cvLA[1][0],cvLA[1][1],cvLA[1][2]);scene.add(cvL1);
@@ -1165,14 +1165,14 @@ else if(m==='cnf'||m==='cnfu'){const q=(((r.ph/(2*PI))%1+1)%1)*(m==='cnfu'?.7:1)
  else if(m==='cwt'){ao=.15;const a=mv?.42:.12;lL=.08+s*a;lR=.08-s*a}
  else if(m==='sta'){ao=.2;aL=aR=.2;lL=s*.04}
  else if(m==='fim'){aL=-PI/2+(mv?.55*s:0);aR=-PI/2-(mv?.55*s:0);ao=-.62;if(mv){lL=.1+s*.42;lR=.1-s*.42}else{lL=.15+s*.05;lR=.12}}
- else{ao=.25;const a=mv?(uw?.42:.65):.15;lL=s*a;lR=-s*a;if(dy<-.3||g.rotation.x>1.5){aL=aR=.03;ao=.07;lL=lR=0}}
+ else{ao=.25;const a=mv?(uw?.5:.65):.15;lL=s*a;lR=-s*a;if(dy<-.3||g.rotation.x>1.5){aL=aR=.03;ao=.07;lL=lR=0}}
  if(g.userData.eqOn){aR=-2.84;aoR=-.65}
  {const e=g.userData.eqOn?1:0;r.aR.position.z+=(e*.2-r.aR.position.z)*k;r.aR.position.y+=(.3+e*.12-r.aR.position.y)*k;r.aR.scale.y+=(1-e*.22-r.aR.scale.y)*k}
  const ap=(o,x,z)=>{o.rotation.x+=Math.round((x-o.rotation.x)/(2*PI))*2*PI;o.rotation.x+=(x-o.rotation.x)*k;o.rotation.z+=(z-o.rotation.z)*k};
  {const dz=(m==='cnf'||m==='cnfd')?cDz:g.userData.duck&&m==='tube'?1.1:0;r.lL.rotation.z+=(-dz-r.lL.rotation.z)*k;r.lR.rotation.z+=(dz-r.lR.rotation.z)*k}
  ap(r.aL,aL,-ao);ap(r.aR,aR,aoR!==null?aoR:ao);r.lL.rotation.x+=(lL-r.lL.rotation.x)*k;r.lR.rotation.x+=(lR-r.lR.rotation.x)*k;
- [r.lL,r.lR].forEach((l,i)=>{const kn=l.userData.kn;if(!kn)return;let kb=0;if(cKn!==null)kb=cKn;else if(m==='tube')kb=g.userData.duck?1.45:0;else if(mv&&!uw)kb=.55*Math.max(0,i?-Math.cos(r.ph):Math.cos(r.ph));else if(mv&&uw)kb=.3*Math.max(0,i?-Math.cos(r.ph+.5):Math.cos(r.ph+.5));kn.rotation.x+=(kb-kn.rotation.x)*k});
- const t=uw?1.35:0,w=uw&&(mv||m==='tread')?(mv?.6:.7):0;[r.lL,r.lR].forEach((l,i)=>{const a=l.userData.an;a.userData.fg.visible=(!a.userData.nf||g.userData.finForce)&&!g.userData.nofin&&m!=='tube';const tt=t+w*Math.sin(r.ph-1.57+i*PI);const sg=a.userData.sg;if(sg){const fl=uw?(mv?1:(m==='tread'||m==='treadnf'?1.3:.12)):0,cur=l.rotation.x+a.rotation.x,pa=a.userData.pa===undefined?cur:a.userData.pa;a.userData.pa=cur;const vv=dt>0?(cur-pa)/dt:0;a.userData.bv=(a.userData.bv||0)+(vv-(a.userData.bv||0))*Math.min(1,dt*9);const tot=Math.max(-.85,Math.min(.85,-a.userData.bv*.16*fl));sg.forEach((q,n)=>{const tg=tot*(n+1)/28;q.rotation.x+=(tg-q.rotation.x)*Math.min(1,dt*16)})}a.rotation.x+=((cAn!==null?cAn:tt)-a.rotation.x)*k})}
+ [r.lL,r.lR].forEach((l,i)=>{const kn=l.userData.kn;if(!kn)return;let kb=0;if(cKn!==null)kb=cKn;else if(m==='tube')kb=g.userData.duck?1.45:0;else if(mv&&!uw)kb=.55*Math.max(0,i?-Math.cos(r.ph):Math.cos(r.ph));else if(mv&&uw)kb=0;kn.rotation.x+=(kb-kn.rotation.x)*k});
+ const t=uw?1.35:0,w=uw&&(mv||m==='tread')?(mv?.1:.7):0;[r.lL,r.lR].forEach((l,i)=>{const a=l.userData.an;a.userData.fg.visible=(!a.userData.nf||g.userData.finForce)&&!g.userData.nofin&&m!=='tube';const tt=t+w*Math.sin(r.ph-1.57+i*PI);const sg=a.userData.sg;if(sg){const fl=uw?(mv?1:(m==='tread'||m==='treadnf'?1.3:.12)):0,cur=l.rotation.x+a.rotation.x,pa=a.userData.pa===undefined?cur:a.userData.pa;a.userData.pa=cur;const vv=dt>0?(cur-pa)/dt:0;a.userData.bv=(a.userData.bv||0)+(vv-(a.userData.bv||0))*Math.min(1,dt*9);const tot=Math.max(-.85,Math.min(.85,-a.userData.bv*.16*fl));sg.forEach((q,n)=>{const tg=tot*(n+1)/28;q.rotation.x+=(tg-q.rotation.x)*Math.min(1,dt*16)})}a.rotation.x+=((cAn!==null?cAn:tt)-a.rotation.x)*k})}
 function humanOld(color,female,hairC){const g=new THREE.Group(),suitM=M(color),skin=M(0xffd9bf),dk=M(0x222233),hair=M(hairC);g.userData.b={material:suitM};
  add(S(.3),suitM,0,.05,0,g).scale.set(1,1.15,.8);
  [-.34,.34].forEach(s=>{const a=add(new THREE.CylinderGeometry(.07,.07,.42,8),suitM,s,.05,0,g);a.rotation.z=s>0?-.25:.25;add(S(.08,8,6),skin,s*1.28,-.17,0,g)});
@@ -1422,12 +1422,12 @@ function touchMove(){{const rw=jwant()&&!introOn&&!((mode==='sta'||mode==='dyn')
   if(nw<tdotT){tdot.style.display='block';tdot.style.left=tpx+'px';tdot.style.top=tpy+'px'}else tdot.style.display='none';return}const v=tmpV.copy(me.position);v.y+=.2;v.project(cam);if(v.z>1){jx=jy=0;return}
  const sx=(v.x+1)/2*VW(),sy=(1-v.y)/2*VH(),R_=Math.max(60,VH()*.12);let dx=(tpx-sx)/R_,dy=-(tpy-sy)/R_;const l=Math.hypot(dx,dy);if(l<.35){dx=dy=0}else{const m=Math.min(1,(l-.35)/.5);dx=dx/l*m;dy=dy/l*m}jx=dx;jy=dy;
  tdot.style.display='block';tdot.style.left=tpx+'px';tdot.style.top=tpy+'px'}
-const ptr=new Map(),winP=new Set();let pd=0,cel=0,zoom=1;
+const ptr=new Map(),winP=new Set();let pd=0,cel=0,zoom=1;const phOff=new THREE.Vector3();
 cvs.onpointerdown=e=>{ptr.set(e.pointerId,[e.clientX,e.clientY]);tStart(e);try{cvs.setPointerCapture(e.pointerId)}catch(x){}pd=0};
 cvs.onpointermove=e=>{const o=ptr.get(e.pointerId);if(!o)return;const dx=e.clientX-o[0],dy=e.clientY-o[1];ptr.set(e.pointerId,[e.clientX,e.clientY]);
  if(e.pointerType==='touch'&&ptr.size<2){if(tpend&&e.pointerId===tpend.id){tpx=e.clientX;tpy=e.clientY;if(Math.hypot(e.clientX-tpend.x,e.clientY-tpend.y)>14){rot=tpend.id;tpend=null}}else if(e.pointerId===tid){tpx=e.clientX;tpy=e.clientY}if(e.pointerId===rot){yaw-=dx*.0085;cel=Math.max(-.6,Math.min(1.1,cel+dy*.0065));ivx=-dx*.0085;ivy=dy*.0065}return}
  if(e.pointerType==='touch'&&ptr.size>=2&&rot!==null&&tid!==null){if(e.pointerId===rot){yaw-=dx*.0085;cel=Math.max(-.6,Math.min(1.1,cel+dy*.0065));ivx=-dx*.0085;ivy=dy*.0065}else if(e.pointerId===tid){tpx=e.clientX;tpy=e.clientY}return}
- if(ptr.size>=2){const v=[...ptr.values()],d=Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]);if(e.pointerType==='touch'){if(pd){fovAdj=clampF(fovAdj-(d-pd)*.05);zoom=Math.max(.4,Math.min(document.body.classList.contains('photo')?4.5:2.4,zoom*pd/d))}}else if(pd)zoom=Math.max(.35,Math.min(document.body.classList.contains('photo')?4.5:2.5,zoom*pd/d));pd=d;}else{yaw-=dx*.0085;cel=Math.max(-.6,Math.min(1.1,cel+dy*.0065));ivx=-dx*.0085;ivy=dy*.0065}};
+ if(ptr.size>=2){const v=[...ptr.values()],d=Math.hypot(v[0][0]-v[1][0],v[0][1]-v[1][1]);if(document.body.classList.contains('photo')){const kk=.0085*Math.max(.5,zoom)*1.6;phOff.x-=Math.cos(yaw)*dx*kk;phOff.z+=Math.sin(yaw)*dx*kk;phOff.y+=dy*kk;if(phOff.length()>60)phOff.setLength(60)}if(e.pointerType==='touch'){if(pd){fovAdj=clampF(fovAdj-(d-pd)*.05);zoom=Math.max(.4,Math.min(document.body.classList.contains('photo')?4.5:2.4,zoom*pd/d))}}else if(pd)zoom=Math.max(.35,Math.min(document.body.classList.contains('photo')?4.5:2.5,zoom*pd/d));pd=d;}else{yaw-=dx*.0085;cel=Math.max(-.6,Math.min(1.1,cel+dy*.0065));ivx=-dx*.0085;ivy=dy*.0065}};
 let ivx=0,ivy=0;
 cvs.addEventListener('pointerdown',e=>{tapS={x:e.clientX,y:e.clientY,t:performance.now(),id:e.pointerId}});
 cvs.addEventListener('pointerup',e=>{const a=tapS;tapS=null;if(!a||a.id!==e.pointerId)return;if(Math.hypot(e.clientX-a.x,e.clientY-a.y)>12||performance.now()-a.t>400)return;
@@ -1559,7 +1559,7 @@ function loop(now){requestAnimationFrame(loop);const rd=(now-last)/1000,dt=Math.
  if(free()&&!introOn&&ride){yaw+=angD(yaw,P.face+Math.PI)*Math.min(1,dt*3);ivx=0}
  if(sit&&sit.t==='ring'&&mode==='fun'){yaw+=angD(yaw,(sit.f||0)+Math.PI)*Math.min(1,dt*6);cel+=(.06-cel)*Math.min(1,dt*6);ivx=ivy=0;zoom+=(1-zoom)*Math.min(1,dt*6);D=8.5;H=3.6}
  if(snap){camD=D;camH=H;zS=zoom}else{const kd=Math.min(1,dt*3);camD+=(D-camD)*kd;camH+=(H-camH)*kd;zS+=(zoom-zS)*Math.min(1,dt*5)}D=camD;H=camH;
- {const dd=Math.hypot(D,H)*zS,aa=Math.max((phase==='dive'&&(mode==='dyn'||vert()))?-.9:.06,Math.min((xp()&&vert())?1.0:1.45,Math.atan2(H,D)+cel));const cxx=vert()&&!okV&&!xp()?BX-.45:P.x;camT.set(cxx+Math.sin(yaw)*Math.cos(aa)*dd,P.y+Math.sin(aa)*dd,P.z+Math.cos(yaw)*Math.cos(aa)*dd)}
+ {const dd=Math.hypot(D,H)*zS,aa=Math.max((phase==='dive'&&(mode==='dyn'||vert()))?-.9:.06,Math.min((xp()&&vert())?1.0:1.45,Math.atan2(H,D)+cel));const cxx=vert()&&!okV&&!xp()?BX-.45:P.x;camT.set(cxx+Math.sin(yaw)*Math.cos(aa)*dd,P.y+Math.sin(aa)*dd,P.z+Math.cos(yaw)*Math.cos(aa)*dd);if(document.body.classList.contains('photo'))camT.add(phOff);else if(phOff.lengthSq())phOff.set(0,0,0)}
  if(mode==='dyn'&&phase==='dive'){const lx=LNX[sel.dyn];camT.x=Math.max(Math.max(-5.7,lx-2.7),Math.min(Math.min(5.7,lx+2.7),camT.x))}
  if(mode==='dyn'&&phase==='dive')camT.y=Math.min(-.35,Math.max(camT.y,-2.75));
  if(vert()&&phase==='dive')camT.y=Math.max(camT.y,-40.05);
@@ -1574,7 +1574,7 @@ function loop(now){requestAnimationFrame(loop);const rd=(now-last)/1000,dt=Math.
  {const tf0=((boost&&mode==='lobby')?63:solo()?68:55)+fovAdj,asp=VW()/VH(),tf=asp<.46?Math.min(95,2*Math.atan(Math.tan(tf0*Math.PI/360)*.46/asp)*180/Math.PI):tf0;if(Math.abs(cam.fov-tf)>.05){cam.fov+=(tf-cam.fov)*Math.min(1,dt*5);cam.updateProjectionMatrix()}}
  if(snap){cam.position.copy(camT);snap=false}else cam.position.lerp(camT,1-Math.exp(-dt*6));
  if(mode==='lobby')for(const f_ of FLT){const gp=f_.g.position;f_.g.visible=Math.hypot(gp.x-cam.position.x,gp.y-cam.position.y,gp.z-cam.position.z)>4.6}
- lkT.set(vert()&&!okV?BX-.45:P.x,P.y+(okV?.55:(vert()&&phase==='dive')?-.35:lkOff>.02?.62:.3)-(introOn?.75:0),P.z);if(bcam)lkT.y=P.y+4.2+cel*6;if(lk.distanceTo(lkT)>20)lk.copy(lkT);else lk.lerp(lkT,1-Math.exp(-dt*14));cam.lookAt(lk);
+ lkT.set(vert()&&!okV?BX-.45:P.x,P.y+(okV?.55:(vert()&&phase==='dive')?-.35:lkOff>.02?.62:.3)-(introOn?.75:0),P.z);if(bcam)lkT.y=P.y+4.2+cel*6;if(phOff.lengthSq())lkT.add(phOff);if(lk.distanceTo(lkT)>20)lk.copy(lkT);else lk.lerp(lkT,1-Math.exp(-dt*14));cam.lookAt(lk);
  const uw=wasUw?cam.position.y<.25:cam.position.y<.05;if(uw!==wasUw){scene.fog=uw?fogU:fogS;wasUw=uw;muffle(uw)}{const hs=uw&&mode==='fun';if(hs!==landHid){landHid=hs;oceanM.opacity=hs?.97:.72;clouds.forEach(c=>{if(hs)c.visible=false;else if(mode==='fun')c.visible=true});LANDV.forEach(o=>{if(hs){o.userData.pv2=o.visible;o.visible=false}else if(mode==='fun')o.visible=o.userData.pv2!==false})}if(window.__fl)window.__fl.visible=mode!=='fun';uwHU.value=hs?1:0;if(window.__bm)window.__bm.visible=!hs}
  skyUpd(dt,uw);if(uw){const dk=Math.min(1,-cam.position.y/85),c=ucol.copy(mode==='fun'?c1f:c1).lerp(mode==='fun'?c2f:c2,Math.pow(dk,.8));bgC.copy(c).multiplyScalar(mode==='fun'?todDF:1);scene.background=bgC;fogU.color.copy(bgC);fogU.density=(mode==='fun'?.011+dk*.016:.02+dk*.025)+(vert()?.05:0)}else if(roomBox.visible){scene.background=roomBgC;fogS.color.setHex(0xf3e6f6)}else{scene.background=skyTex;if(mode==='fun')fogS.color.copy(todFog);else fogS.color.setHex(fogC)}
  {const tg=uw?1:0;fogK+=(tg-fogK)*Math.min(1,dt*4);if(mode!=='fun')fogK=tg;else if(fogK>.015&&fogK<.985){if(uw){fogTmp.copy(fogU.color);fogU.density=fogS.density+(fogU.density-fogS.density)*fogK;fogU.color.copy(fogS.color).lerp(fogTmp,fogK)}else{fogS.density=.0042+(Math.max(fogU.density,.0042)-.0042)*fogK;fogS.color.lerp(fogU.color,fogK)}}else if(!uw&&fogS.density!==.0042)fogS.density=.0042}
@@ -1853,7 +1853,7 @@ function squeak(){if(!AC||!musOn)return;const t=AC.currentTime,o=AC.createOscill
 function slideSfx(){if(!AC||!musOn)return;const t=AC.currentTime,n=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();f.type='bandpass';f.Q.value=1.2;f.frequency.setValueAtTime(500,t);f.frequency.exponentialRampToValueAtTime(3000,t+1.4);g.gain.setValueAtTime(.02,t);g.gain.linearRampToValueAtTime(.2,t+.9);g.gain.linearRampToValueAtTime(.05,t+1.5);n.buffer=nz(1.5,0.3,.05);n.connect(f);f.connect(g);g.connect(AC.destination);n.start(t);
  const o=AC.createOscillator(),h=AC.createGain();o.type='triangle';o.frequency.setValueAtTime(420,t);o.frequency.exponentialRampToValueAtTime(1100,t+1.3);h.gain.setValueAtTime(.001,t);h.gain.linearRampToValueAtTime(.05,t+.2);h.gain.linearRampToValueAtTime(.001,t+1.4);o.connect(h);h.connect(AC.destination);o.start(t);o.stop(t+1.45)}
 function goTo(x,z){if(!free())setMode('lobby');fvx=fvz=0;P.x=x;P.z=z;P.y=1.02;ride=null;sit=null;snap=true;beep(600)}
-$('tnm').onclick=()=>{pan('<b>🙋 내 정보</b> <small style="opacity:.4">v334</small><br>이름: <b>'+esc(nm)+'</b> · '+(female?'👧 여자':'👦 남자')+'<br><small>성별은 처음에 한 번만 정할 수 있어요.</small><div style="margin:10px 0 4px"><input id="nmin" maxlength="10" value="'+esc(nm==='다이버'?'':nm)+'" placeholder="새 닉네임" style="font-size:16px;padding:8px 12px;border-radius:999px;border:2px solid #cfe0f3;width:150px"> <button class="big" id="nmok">✏️ 바꾸기</button><br><small>닉네임 변경 가능 횟수 <b>'+(nm==='다이버'?'3':Math.max(0,3-nc))+'/3</b></small></div>'+(window.PD_SITE?'<hr style="opacity:.3"><b>🔑 내 계정 코드</b><br><small>다른 기기에서 이어 하려면 이 코드를 입력하세요. 남에게 알려주지 마세요!</small><div style="font-size:18px;letter-spacing:1px;margin:6px 0;user-select:text;-webkit-user-select:text">'+PD_CODE()+'</div><input id="cdin" placeholder="다른 기기의 코드 입력" maxlength="19" style="font-size:16px;padding:8px;border-radius:10px;border:1px solid #888;width:190px"> <button class="big" id="cdok">불러오기</button>':''));}
+$('tnm').onclick=()=>{pan('<b>🙋 내 정보</b> <small style="opacity:.4">v335</small><br>이름: <b>'+esc(nm)+'</b> · '+(female?'👧 여자':'👦 남자')+'<br><small>성별은 처음에 한 번만 정할 수 있어요.</small><div style="margin:10px 0 4px"><input id="nmin" maxlength="10" value="'+esc(nm==='다이버'?'':nm)+'" placeholder="새 닉네임" style="font-size:16px;padding:8px 12px;border-radius:999px;border:2px solid #cfe0f3;width:150px"> <button class="big" id="nmok">✏️ 바꾸기</button><br><small>닉네임 변경 가능 횟수 <b>'+(nm==='다이버'?'3':Math.max(0,3-nc))+'/3</b></small></div>'+(window.PD_SITE?'<hr style="opacity:.3"><b>🔑 내 계정 코드</b><br><small>다른 기기에서 이어 하려면 이 코드를 입력하세요. 남에게 알려주지 마세요!</small><div style="font-size:18px;letter-spacing:1px;margin:6px 0;user-select:text;-webkit-user-select:text">'+PD_CODE()+'</div><input id="cdin" placeholder="다른 기기의 코드 입력" maxlength="19" style="font-size:16px;padding:8px;border-radius:10px;border:1px solid #888;width:190px"> <button class="big" id="cdok">불러오기</button>':''));}
 function nmChange(){const v=(($('nmin')||{}).value||'').trim().slice(0,10);
  if(!v||v===nm){toast('새 닉네임을 적어주세요');return}
  if(nm!=='다이버'&&nc>=3){toast('닉네임은 3번까지만 바꿀 수 있어요');beep(300);return}
