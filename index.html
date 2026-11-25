@@ -129,7 +129,7 @@ setInterval(()=>{try{
  if(!el){if(!document.body)return;el=document.createElement('div');el.id='pdNet';el.style.cssText='position:fixed;left:10px;top:calc(env(safe-area-inset-top,0px) + 60px);z-index:50;font:600 12px/1.3 sans-serif;color:#17324d;background:rgba(255,255,255,.82);border-radius:10px;padding:4px 9px;pointer-events:none;max-width:70vw';document.body.appendChild(el)}
  let t='';
  if(netMode==='fail')t='🔴 멀티플레이 안 됨: '+netErr;
- if(t)t+=' · v335';
+ if(t)t+=' · v336';
  if(el.textContent!==t)el.textContent=t;
  el.style.display=t?'':'none';
 }catch(e){}},1500);
@@ -1165,7 +1165,7 @@ else if(m==='cnf'||m==='cnfu'){const q=(((r.ph/(2*PI))%1+1)%1)*(m==='cnfu'?.7:1)
  else if(m==='cwt'){ao=.15;const a=mv?.42:.12;lL=.08+s*a;lR=.08-s*a}
  else if(m==='sta'){ao=.2;aL=aR=.2;lL=s*.04}
  else if(m==='fim'){aL=-PI/2+(mv?.55*s:0);aR=-PI/2-(mv?.55*s:0);ao=-.62;if(mv){lL=.1+s*.42;lR=.1-s*.42}else{lL=.15+s*.05;lR=.12}}
- else{ao=.25;const a=mv?(uw?.5:.65):.15;lL=s*a;lR=-s*a;if(dy<-.3||g.rotation.x>1.5){aL=aR=.03;ao=.07;lL=lR=0}}
+ else{ao=.25;const a=mv?(uw?.5:.65):.15;lL=s*a;lR=-s*a;if(dy<-.3||g.rotation.x>1.5){aL=aR=.03;ao=.07;if(!(mv&&uw)){lL=lR=0}}}
  if(g.userData.eqOn){aR=-2.84;aoR=-.65}
  {const e=g.userData.eqOn?1:0;r.aR.position.z+=(e*.2-r.aR.position.z)*k;r.aR.position.y+=(.3+e*.12-r.aR.position.y)*k;r.aR.scale.y+=(1-e*.22-r.aR.scale.y)*k}
  const ap=(o,x,z)=>{o.rotation.x+=Math.round((x-o.rotation.x)/(2*PI))*2*PI;o.rotation.x+=(x-o.rotation.x)*k;o.rotation.z+=(z-o.rotation.z)*k};
@@ -1853,7 +1853,7 @@ function squeak(){if(!AC||!musOn)return;const t=AC.currentTime,o=AC.createOscill
 function slideSfx(){if(!AC||!musOn)return;const t=AC.currentTime,n=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();f.type='bandpass';f.Q.value=1.2;f.frequency.setValueAtTime(500,t);f.frequency.exponentialRampToValueAtTime(3000,t+1.4);g.gain.setValueAtTime(.02,t);g.gain.linearRampToValueAtTime(.2,t+.9);g.gain.linearRampToValueAtTime(.05,t+1.5);n.buffer=nz(1.5,0.3,.05);n.connect(f);f.connect(g);g.connect(AC.destination);n.start(t);
  const o=AC.createOscillator(),h=AC.createGain();o.type='triangle';o.frequency.setValueAtTime(420,t);o.frequency.exponentialRampToValueAtTime(1100,t+1.3);h.gain.setValueAtTime(.001,t);h.gain.linearRampToValueAtTime(.05,t+.2);h.gain.linearRampToValueAtTime(.001,t+1.4);o.connect(h);h.connect(AC.destination);o.start(t);o.stop(t+1.45)}
 function goTo(x,z){if(!free())setMode('lobby');fvx=fvz=0;P.x=x;P.z=z;P.y=1.02;ride=null;sit=null;snap=true;beep(600)}
-$('tnm').onclick=()=>{pan('<b>🙋 내 정보</b> <small style="opacity:.4">v335</small><br>이름: <b>'+esc(nm)+'</b> · '+(female?'👧 여자':'👦 남자')+'<br><small>성별은 처음에 한 번만 정할 수 있어요.</small><div style="margin:10px 0 4px"><input id="nmin" maxlength="10" value="'+esc(nm==='다이버'?'':nm)+'" placeholder="새 닉네임" style="font-size:16px;padding:8px 12px;border-radius:999px;border:2px solid #cfe0f3;width:150px"> <button class="big" id="nmok">✏️ 바꾸기</button><br><small>닉네임 변경 가능 횟수 <b>'+(nm==='다이버'?'3':Math.max(0,3-nc))+'/3</b></small></div>'+(window.PD_SITE?'<hr style="opacity:.3"><b>🔑 내 계정 코드</b><br><small>다른 기기에서 이어 하려면 이 코드를 입력하세요. 남에게 알려주지 마세요!</small><div style="font-size:18px;letter-spacing:1px;margin:6px 0;user-select:text;-webkit-user-select:text">'+PD_CODE()+'</div><input id="cdin" placeholder="다른 기기의 코드 입력" maxlength="19" style="font-size:16px;padding:8px;border-radius:10px;border:1px solid #888;width:190px"> <button class="big" id="cdok">불러오기</button>':''));}
+$('tnm').onclick=()=>{pan('<b>🙋 내 정보</b> <small style="opacity:.4">v336</small><br>이름: <b>'+esc(nm)+'</b> · '+(female?'👧 여자':'👦 남자')+'<br><small>성별은 처음에 한 번만 정할 수 있어요.</small><div style="margin:10px 0 4px"><input id="nmin" maxlength="10" value="'+esc(nm==='다이버'?'':nm)+'" placeholder="새 닉네임" style="font-size:16px;padding:8px 12px;border-radius:999px;border:2px solid #cfe0f3;width:150px"> <button class="big" id="nmok">✏️ 바꾸기</button><br><small>닉네임 변경 가능 횟수 <b>'+(nm==='다이버'?'3':Math.max(0,3-nc))+'/3</b></small></div>'+(window.PD_SITE?'<hr style="opacity:.3"><b>🔑 내 계정 코드</b><br><small>다른 기기에서 이어 하려면 이 코드를 입력하세요. 남에게 알려주지 마세요!</small><div style="font-size:18px;letter-spacing:1px;margin:6px 0;user-select:text;-webkit-user-select:text">'+PD_CODE()+'</div><input id="cdin" placeholder="다른 기기의 코드 입력" maxlength="19" style="font-size:16px;padding:8px;border-radius:10px;border:1px solid #888;width:190px"> <button class="big" id="cdok">불러오기</button>':''));}
 function nmChange(){const v=(($('nmin')||{}).value||'').trim().slice(0,10);
  if(!v||v===nm){toast('새 닉네임을 적어주세요');return}
  if(nm!=='다이버'&&nc>=3){toast('닉네임은 3번까지만 바꿀 수 있어요');beep(300);return}
